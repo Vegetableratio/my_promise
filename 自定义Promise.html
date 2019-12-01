@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./lib/myPromise.js"></script>
+</head>
+<body>
+<script>
+    const p = new MyPromise((resolve,reject)=>{
+        setTimeout(()=>{
+            // resolve(1);
+
+            reject(2);
+        })
+    });
+    p.then(
+        value =>{
+            console.log('onResolved1()',value)
+        },
+        reason =>{
+            console.log('onRejected1()',reason)
+        }
+    );
+    p.then(
+        value =>{
+            console.log('onResolved2()',value)
+        },
+        reason =>{
+            console.log('onRejected2()',reason)
+        }
+    )
+</script>
+</body>
+</html>
