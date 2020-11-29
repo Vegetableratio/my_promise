@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // const ajax = new XMLHttpRequest();
+    // const url = 'https://api.apiopen.top/getJoke';
+    // ajax.open('GET', url);
+    // ajax.send();
+
+    // ajax.addEventListener('readystatechange', (e) => {
+    //   if (ajax.readyState === 4)
+    //     if (ajax.status === 200) {
+    //       console.log(JSON.parse(ajax.response));
+    //     }
+    // })
+    
+    const p = new Promise((resolve, reject) => {
+      const ajax = new XMLHttpRequest();
+      const url = 'https://api.apiopen.top/getJoke';
+      ajax.open('GET', url);
+      ajax.send();
+      ajax.addEventListener('readystatechange', (e) => {
+        if (ajax.readyState === 4) {
+          if (ajax.status === 200) {
+            resolve(ajax.response)
+          } else {
+            reject(ajax.response)
+          }
+        }
+      })
+    })
+    p.then(res => {
+      console.log('res=', res);
+    }).catch(err => {
+      console.log('err=', err);
+    })
+  </script>
+</body>
+
+</html>
