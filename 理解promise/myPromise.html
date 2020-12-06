@@ -12,10 +12,10 @@
 <body>
   <script>
     const p = new Promise((resolve, reject) => {
-      setTimeout(() => {
+      // setTimeout(() => {
       resolve('ok111')
       // reject('err');
-      }, 1000);
+      // }, 1000);
     })
     // console.log(p);
     const res = p.then(response => {
@@ -24,7 +24,7 @@
       //   resolve('ok22')
       //   reject('err22');
       // })
-      return response
+      throw 'errrrrrr'
     }, reason => {
       // console.log('reason=', reason);
         // return new Promise((resolve, reject) => {

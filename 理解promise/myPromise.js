@@ -31,7 +31,7 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
     const type = (typeF) => {
       try {
         // 获取回调函数的执行结果
-        const result = type(this.PromiseResult);
+        const result = typeF(this.PromiseResult);
         if (result instanceof Promise) {
           result.then(v => {
             resolve(v);
@@ -42,6 +42,7 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
           resolve(result);
         }
       } catch (e) {
+        console.log(e);
         reject(e);
       }
     }
