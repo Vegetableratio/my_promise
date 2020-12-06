@@ -27,6 +27,12 @@ function Promise(executor) {
 
 Promise.prototype.then = function (onFulfilled, onRejected) {
   return new Promise((resolve, reject) => {
+    if (typeof onFulfilled !== 'function') {
+      onFulfilled = reason => reason
+    }
+    if (typeof onRejected !== 'function') {
+      onRejected = value => value
+    }
     // 重复代码封装
     const type = (typeF) => {
       try {
@@ -63,5 +69,9 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
       })
     }
   })
+}
 
+// 封装 catch 方法
+Promise.prototype.catch = function (onRejected) {
+  return this.then(null, onRejected)
 }
