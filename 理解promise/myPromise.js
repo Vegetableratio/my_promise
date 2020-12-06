@@ -26,12 +26,12 @@ function Promise(executor) {
 }
 
 Promise.prototype.then = function (onFulfilled, onRejected) {
-  const _this = this;
   return new Promise((resolve, reject) => {
-    if (this.PromiseState === 'fulfilled') {
+    // 重复代码封装
+    const type = (typeF) => {
       try {
         // 获取回调函数的执行结果
-        const result = onFulfilled(this.PromiseResult);
+        const result = type(this.PromiseResult);
         if (result instanceof Promise) {
           result.then(v => {
             resolve(v);
@@ -45,60 +45,19 @@ Promise.prototype.then = function (onFulfilled, onRejected) {
         reject(e);
       }
     }
+    if (this.PromiseState === 'fulfilled') {
+      type(onFulfilled);
+    }
     if (this.PromiseState === 'rejected') {
-      try {
-        // 获取回调函数的执行结果
-        const result = onRejected(this.PromiseResult);
-        if (result instanceof Promise) {
-          result.then(v => {
-            resolve(v);
-          }, r => {
-            reject(r);
-          })
-        } else {
-          resolve(result);
-        }
-      } catch (e) {
-        reject(e);
-      }
+      type(onRejected);
     }
     if (this.PromiseState === 'pending') {
       this.callbacks.push({
-        // onFulfilled, 
-        // onRejected 
         onFulfilled() {
-          try {
-            // 获取回调函数的执行结果
-            const result = onFulfilled(_this.PromiseResult);
-            if (result instanceof Promise) {
-              result.then(v => {
-                resolve(v);
-              }, r => {
-                reject(r);
-              })
-            } else {
-              resolve(result);
-            }
-          } catch (e) {
-            reject(e);
-          }
+          type(onFulfilled);
         },
         onRejected() {
-          try {
-            // 获取回调函数的执行结果
-            const result = onRejected(_this.PromiseResult);
-            if (result instanceof Promise) {
-              result.then(v => {
-                resolve(v);
-              }, r => {
-                reject(r);
-              })
-            } else {
-              resolve(result);
-            }
-          } catch (e) {
-            reject(e);
-          }
+          type(onRejected);
         }
       })
     }
